@@ -1,6 +1,6 @@
-          hello. this might help.
+          hello. this surely help.
 
-git clone https://github.com/jolnk/elosystem.git .
+git clone https://github.com/jolnk/elosystemdemo.git .
 
 python -m venv venv
 
