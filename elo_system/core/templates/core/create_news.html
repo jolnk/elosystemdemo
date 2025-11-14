@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Criar Notícia - Sistema Elo{% endblock %}
+
+{% block content %}
+  <!-- Seção para o título da página -->
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Criar Notícia</h2>
+
+    <!-- Formulário para criar notícia -->
+    <form method="POST" enctype="multipart/form-data" class="bg-neutral-950 p-6 rounded-2xl shadow-lg border border-neutral-800">
+      {% csrf_token %}
+
+      <!-- Campo de título -->
+      <div class="mb-4">
+        <label for="title" class="block text-lg text-neutral-300">Título</label>
+        <input type="text" name="title" id="title" class="input-secondary" required>
+      </div>
+
+      <!-- Campo de imagem -->
+      <div class="mb-4">
+        <label for="image" class="block text-lg text-neutral-300">Imagem</label>
+        <input type="file" name="image" id="image" class="input-secondary">
+      </div>
+
+      <!-- Botões de ação -->
+      <div class="mt-4 flex gap-2">
+        <!-- Botão de criar -->
+        <button type="submit" class="btn-default">Criar</button>
+
+        <!-- Botão de voltar -->
+        <a href="{% url 'manage' %}" class="btn-ghost">Voltar</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

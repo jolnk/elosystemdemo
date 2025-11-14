@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Confirmar Reset - Sistema Elo{% endblock %}
+
+{% block content %}
+  <section class="max-w-2xl mx-auto bg-neutral-950 p-6 rounded-2xl shadow-lg border border-neutral-800">
+    <h1 class="text-3xl font-bold text-center mb-6 text-red-400">Resetar TODO o Sistema?</h1>
+    <p class="text-center text-neutral-300 mb-6">Isso vai apagar todos os jogadores, times e partidas.<br>Esta ação não pode ser desfeita.</p>
+
+    <form method="POST" class="text-center">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-600 px-6 py-3 rounded text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+        Sim, apagar tudo
+      </button>
+      <a href="{% url 'home' %}" class="ml-4 text-neutral-300 hover:underline">Cancelar</a>
+    </form>
+  </section>
+{% endblock %}

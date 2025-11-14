@@ -1,0 +1,17 @@
+# Python
+*.pyc
+__pycache__/
+
+# Django
+*.log
+
+# Ignore o banco de dados se você não quiser enviá-lo (remova se quiser manter)
+# *.sqlite3
+# db.sqlite3
+
+# Arquivos de mídia
+# Não ignore a pasta de mídia, onde geralmente ficam as imagens de usuário
+media/
+
+# Ambiente Virtual
+venv/

@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sistema Elo{% endblock %}
+
+{% block content %}
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+    <section class="flex flex-col items-center space-y-4">
+      <div class="w-full max-w-2xl p-6 bg-neutral-900 rounded-2xl border border-neutral-800">
+        <h2 class="text-2xl font-semibold text-center mb-6">Opções de Gerenciamento</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Botões de gerenciamento usando classes CSS do buttons.css -->
+          <a href="{% url 'register_player' %}" class="btn-default">Registrar Jogador</a>
+          <a href="{% url 'register_team' %}" class="btn-default">Registrar Time</a>
+          <a href="{% url 'register_match' %}" class="btn-default">Registrar Partida</a>
+          <a href="{% url 'create_news' %}" class="btn-default">Criar Notícia</a>
+          <a href="{% url 'view_news' %}" class="btn-default">Ver Notícias</a>
+          <a href="{% url 'reset_all' %}" onclick="return confirm('Tem certeza que deseja resetar TODO o sistema?')" class="btn-destructive">Resetar Sistema</a>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

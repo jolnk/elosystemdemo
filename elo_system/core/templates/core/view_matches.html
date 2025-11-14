@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Todas as Partidas - Sistema Elo{% endblock %}
+
+{% block content %}
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Todas as Partidas</h2>
+
+    {% if matches %}
+      <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-neutral-900">
+            <tr class="text-left">
+              <th class="px-4 py-3">Data</th>
+              <th class="px-4 py-3">Times</th>
+              <th class="px-4 py-3">Placar</th>
+              <th class="px-4 py-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-800">
+            {% for match in matches %}
+            <tr class="hover:bg-neutral-900/60">
+              <td class="px-4 py-3">{{ match.date }}</td>
+              <td class="px-4 py-3">{{ match.team_a.name }} vs {{ match.team_b.name }}</td>
+              <td class="px-4 py-3">{{ match.score_a }} - {{ match.score_b }}</td>
+              <td class="px-4 py-3">
+                <!-- Botão de Deletar com estilo padronizado -->
+                <a href="{% url 'delete_match' match.id %}" class="btn-destructive text-sm px-3 py-1"
+                   onclick="return confirm('Tem certeza que deseja deletar esta partida?')">
+                   Deletar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-neutral-400">Nenhuma partida registrada.</p>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Sistema Elo{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'styles/buttons.css' %}">
+</head>
+
+<body class="bg-neutral-950 text-neutral-100">
+
+  <!-- Header (fundo sem conteúdo específico) -->
+  <header class="border-b border-neutral-800 bg-neutral-900/60 backdrop-blur mb-8">
+    <!-- O conteúdo da header pode ser carregado nas páginas que precisarem -->
+  </header>
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-20 backdrop-blur mt-4">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-center gap-10">
+      <!-- Título da aplicação -->
+      <a href="/" class="text-2xl md:text-3xl font-semibold tracking-tight text-neutral-100 hover:text-white whitespace-nowrap">Elo System</a> <!-- adicionado whitespace-nowrap para evitar que o texto quebre em disposisitos moveis -->
+
+      <!-- Botões de navegação -->
+      <div class="flex items-center gap-4">
+        {% if user.is_authenticated %}
+          <a href="{% url 'view_teams' %}" class="btn-ghost">Times</a>
+          <a href="{% url 'view_players' %}" class="btn-ghost">Jogadores</a>
+          <a href="{% url 'view_matches' %}" class="btn-ghost">Partidas</a>
+        {% endif %}
+      </div>
+
+      <!-- Botões à direita -->
+      <div class="flex items-center gap-2">
+        {% if user.is_authenticated %}
+          <a href="{% url 'manage' %}" class="btn-default">Gerenciar</a>
+          <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-secondary">Sair</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn-default">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo dinâmico da página -->
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- SCRIPT CARROSSEL -->
+  <script>
+    (function () {
+      var track = document.getElementById("news-track");
+      if (!track) return;
+
+      var prev = document.getElementById("news-prev");
+      var next = document.getElementById("news-next");
+      var index = 0;
+      var slides = track.children;
+
+      function go(i) {
+        index = (i + slides.length) % slides.length;
+        var slideWidth = slides[0].offsetWidth;
+        track.style.transform = "translateX(" + (-index * slideWidth) + "px)";
+      }
+
+      prev.addEventListener("click", function() {
+        go(index - 1);
+      });
+
+      next.addEventListener("click", function() {
+        go(index + 1);
+      });
+
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "ArrowLeft") go(index - 1);
+        if (e.key === "ArrowRight") go(index + 1);
+      });
+    })();
+  </script>
+
+</body>
+</html>

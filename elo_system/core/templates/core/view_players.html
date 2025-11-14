@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Todos os Jogadores - Sistema Elo{% endblock %}
+
+{% block content %}
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Todos os Jogadores</h2>
+
+    {% if players %}
+      <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-neutral-900">
+            <tr class="text-left">
+              <th class="px-4 py-3">Foto</th>
+              <th class="px-4 py-3">Username</th>
+              <th class="px-4 py-3">Rating</th>
+              <th class="px-4 py-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-800">
+            {% for player in players %}
+            <tr class="hover:bg-neutral-900/60">
+              <td class="px-4 py-3">
+                {% if player.photo %}
+                  <img src="{{ player.photo.url }}" alt="{{ player.username }}" class="w-10 h-10 rounded-full object-cover">
+                {% else %}
+                  <div class="w-10 h-10 rounded-full bg-neutral-800 border border-neutral-700"></div>
+                {% endif %}
+              </td>
+              <td class="px-4 py-3">{{ player.username }}</td>
+              <td class="px-4 py-3">{{ player.rating|floatformat:0 }}</td>
+              <td class="px-4 py-3">
+                <!-- Botão de deletar -->
+                <a href="{% url 'delete_player' player.id %}" 
+                   class="btn-destructive text-sm px-3 py-1"
+                   onclick="return confirm('Tem certeza que deseja deletar este jogador?')">
+                   Deletar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-neutral-400">Nenhum jogador registrado ainda.</p>
+    {% endif %}
+  </section>
+{% endblock %}

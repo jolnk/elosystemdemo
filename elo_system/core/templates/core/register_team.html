@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Registrar Time - Sistema Elo{% endblock %}
+
+{% block content %}
+  <!-- Seção para o título da página -->
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Registrar Time</h2>
+
+    <!-- Formulário para registrar o time -->
+    <form method="POST" enctype="multipart/form-data" class="bg-neutral-950 p-6 rounded-2xl shadow-lg border border-neutral-800">
+      {% csrf_token %}
+
+      <!-- Nome do time -->
+      <div class="mb-4">
+        <label for="name" class="block text-lg text-neutral-300">Nome do Time</label>
+        <input type="text" name="name" id="name" class="input-secondary" required>
+        {% if form.name.errors %}
+          <div class="text-red-500 mt-2">
+            {% for error in form.name.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Seleção de jogadores -->
+      <div class="mb-4">
+        <label for="players" class="block text-lg text-neutral-300">Jogadores</label>
+        <div class="space-y-2">
+          {% for player in players %}
+            <div>
+              <input type="checkbox" name="players" value="{{ player.id }}" id="player_{{ player.id }}" class="mr-2">
+              <label for="player_{{ player.id }}" class="text-neutral-300">{{ player.username }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Foto do time -->
+      <div class="mb-4">
+        <label for="photo" class="block text-lg text-neutral-300">Foto do Time</label>
+        <input type="file" name="photo" id="photo" class="input-secondary">
+      </div>
+
+      <!-- Botões de ação: Registrar e Voltar -->
+      <div class="mt-4 flex gap-2">
+        <!-- Botão de Registrar -->
+        <button type="submit" class="btn-default">Registrar Time</button>
+
+        <!-- Botão de Voltar -->
+        <a href="{% url 'manage' %}" class="btn-ghost">Voltar</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home - Sistema Elo{% endblock %}
+
+{% block content %}
+  <!-- HISTÓRICO DE PARTIDAS E RANKING LADO A LADO -->
+  <section class="flex space-x-8">
+
+    <!-- HISTÓRICO DE PARTIDAS -->
+    <div class="flex-1">
+      <h2 class="text-xl md:text-2xl font-semibold mb-4">Histórico de Partidas</h2>
+
+      {% if matches %}
+        <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+          <table class="min-w-full text-sm">
+            <tbody class="divide-y divide-neutral-800">
+              {% for match in matches|slice:":7" %}  <!-- Limita a 7 partidas -->
+              <tr class="hover:bg-neutral-900/60">
+                <td class="px-4 py-3 text-neutral-400 text-xs font-semibold">{{ match.date|date:"M. d, Y, H:i" }}</td>
+                <td class="px-4 py-3">{{ match.team_a }} vs {{ match.team_b }}</td>
+                <td class="px-4 py-3">{{ match.score_a }} - {{ match.score_b }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-neutral-400">Nenhuma partida registrada.</p>
+      {% endif %}
+    </div>
+
+    <!-- RANKING DE JOGADORES -->
+    <div class="flex-1">
+      <h2 class="text-xl md:text-2xl font-semibold mb-4">Ranking de Jogadores</h2>
+
+      {% if players %}
+        <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+          <table class="min-w-full text-sm">
+            <tbody class="divide-y divide-neutral-800">
+              {% for player in players|slice:":5" %}  <!-- Limita a 5 jogadores -->
+              <tr class="hover:bg-neutral-900/60">
+                <td class="px-4 py-3">
+                  {% if player.photo %}
+                    <img src="{{ player.photo.url }}" class="w-10 h-10 rounded-full object-cover" />
+                  {% else %}
+                    <div class="w-10 h-10 rounded-full bg-neutral-800 border border-neutral-700"></div>
+                  {% endif %}
+                </td>
+                <td class="px-4 py-3 font-semibold">{{ player.username }}</td>
+                <td class="px-4 py-3 text-neutral-400 font-bold">{{ player.rating|floatformat:0 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-neutral-400">Nenhum jogador registrado ainda.</p>
+      {% endif %}
+    </div>
+
+  </section>
+
+  <!-- CARROSSEL DE NOTÍCIAS -->
+  {% if news or news_list %}
+    <section class="mt-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl md:text-2xl font-semibold">Notícias</h2>
+        <div class="flex gap-2">
+          <!-- Botões Retroceder e Avançar -->
+          <button id="news-prev" class="btn-ghost px-3 py-2">
+            ◁
+          </button>
+
+          <button id="news-next" class="btn-ghost px-3 py-2">
+            ▷
+          </button>
+        </div>
+      </div>
+
+      <div id="news-carousel" class="relative overflow-hidden rounded-2xl border border-neutral-800 max-w-3xl mx-auto">
+        <div id="news-track" class="flex transition-transform duration-300 ease-out">
+          {% if news %}
+            {% for n in news %}
+              {% include "core/news_slide.html" %}
+            {% endfor %}
+          {% else %}
+            {% for n in news_list %}
+              {% include "core/news_slide.html" %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

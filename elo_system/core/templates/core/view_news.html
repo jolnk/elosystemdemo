@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Todas as Notícias - Sistema Elo{% endblock %}
+
+{% block content %}
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Todas as Notícias</h2>
+
+    {% if news_list %}
+      <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-neutral-900">
+            <tr class="text-left">
+              <th class="px-4 py-3">Imagem</th>
+              <th class="px-4 py-3">Título</th>
+              <th class="px-4 py-3">Data</th>
+              <th class="px-4 py-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-800">
+            {% for news in news_list %}
+            <tr class="hover:bg-neutral-900/60">
+              <td class="px-4 py-3">
+                {% if news.image %}
+                  <img src="{{ news.image.url }}" class="w-32 h-20 object-cover rounded">
+                {% else %}
+                  <div class="w-32 h-20 bg-neutral-600 rounded"></div>
+                {% endif %}
+              </td>
+
+              <td class="px-4 py-3 text-lg">{{ news.title }}</td>
+
+              <td class="px-4 py-3 text-gray-300 text-sm">
+                {{ news.created_at|date:"d/m/Y H:i" }}
+              </td>
+
+              <td class="px-4 py-3">
+                <a href="{% url 'delete_news' news.id %}" class="btn-destructive text-sm px-3 py-1"
+                   onclick="return confirm('Tem certeza que deseja deletar esta notícia?')">
+                   Deletar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-neutral-400">Nenhuma notícia registrada ainda.</p>
+    {% endif %}
+  </section>
+{% endblock %}

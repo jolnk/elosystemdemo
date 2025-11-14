@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Todos os Times - Sistema Elo{% endblock %}
+
+{% block content %}
+  <section>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Todos os Times</h2>
+
+    {% if teams %}
+      <div class="overflow-x-auto rounded-2xl border border-neutral-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-neutral-900">
+            <tr class="text-left">
+              <th class="px-4 py-3">Foto</th>
+              <th class="px-4 py-3">Nome do Time</th>
+              <th class="px-4 py-3">Jogadores</th>
+              <th class="px-4 py-3">Rating Médio</th>
+              <th class="px-4 py-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-800">
+            {% for team in teams %}
+            <tr class="hover:bg-neutral-900/60">
+              <td class="px-4 py-3">
+                {% if team.photo %}
+                  <img src="{{ team.photo.url }}" alt="{{ team.name }}" class="w-10 h-10 rounded-full object-cover">
+                {% else %}
+                  <div class="w-10 h-10 rounded-full bg-neutral-800 border border-neutral-700"></div>
+                {% endif %}
+              </td>
+              <td class="px-4 py-3">{{ team.name }}</td>
+              <td class="px-4 py-3">
+                {% for player in team.players.all %}
+                  {{ player.username }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </td>
+              <td class="px-4 py-3">{{ team.average_rating|floatformat:0 }}</td>
+              <td class="px-4 py-3">
+                <!-- Botão de Deletar com estilo padronizado -->
+                <a href="{% url 'delete_team' team.id %}" class="btn-destructive text-sm px-3 py-1"
+                   onclick="return confirm('Tem certeza que deseja deletar este time?')">
+                   Deletar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-neutral-400">Nenhum time registrado ainda.</p>
+    {% endif %}
+  </section>
+{% endblock %}
