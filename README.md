@@ -1,4 +1,4 @@
-          hello. this surely help.
+          hello. this surely helps.
 
 git clone https://github.com/jolnk/elosystemdemo.git .
 
